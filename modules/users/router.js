@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getAllUsers, register, getUserByEmail } = require('./controller');
+const { getAllUsers, register, getUserByEmail, getAllUsersByCorporation } = require('./controller');
 const bcrypt = require ('bcrypt');
 
 /* GET users listing. */
@@ -26,6 +26,21 @@ router.get('/:email/:psw', async function (req, res, next) {
         res.json();
       }
     });
+  }
+});
+
+/* GET users on corporation. */
+router.get('/:corpo', async function (req, res, next) {
+  const users = await getAllUsersByCorporation(req.params.corpo);
+
+
+  if(users.users[0] == undefined){
+    res.json();
+
+  }
+  else{
+    res.json(users);
+
   }
 });
 

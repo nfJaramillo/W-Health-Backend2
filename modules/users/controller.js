@@ -14,12 +14,24 @@ const getAllUsers = async () => {
   }
 };
 
+const getAllUsersByCorporation = async (corpo) => {
+  try {
+    const users = await getDbRef()
+      .collection(COLLECTION_NAME)
+      .find({coorporation: corpo, isSupervisor: 'no'})
+      .toArray();
+    return { users };
+  } catch (error) {
+    return { error };
+  }
+};
 
-async function getUserByEmail(email) {
+
+async function getUserByEmail(pEmail) {
   try {
     const user = await getDbRef()
       .collection(COLLECTION_NAME)
-      .findOne({ email });
+      .findOne({ email: pEmail });
     return user;
   } catch (error) {
     return { error };
@@ -39,4 +51,4 @@ function register(matchDocument, res){
     });
 }
 
-module.exports = { getAllUsers, getUserByEmail, register };
+module.exports = { getAllUsers, getUserByEmail, register, getAllUsersByCorporation };
