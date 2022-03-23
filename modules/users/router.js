@@ -56,32 +56,32 @@ router.get('/:corpo', async function (req, res, next) {
       password : hash,
       coorporation: req.body.corporation,
       isSupervisor: req.body.isSupervisor,
-      surveyAmmount: req.body.surveyAmmount,
-      activeBreakCount: req.body.activeBreakCount,
-      pExcerciseCount: req.body.pExcerciseCount,
-      healthSurveyCount: req.body.healthSurveyCount
+      lastSurvey: req.body.lastSurvey,
+      lastActiveBreak: req.body.lastActiveBreak,
+      lastP_Exercise: req.body.lastP_Exercise,
+      lastE_Survey: req.body.lastE_Survey
     };
     register(matchDocument, res);
   });
 });
 
 /* Update supervisor check survey ammount */
-router.post('/survey/:email', async function (req, res, next) {
+router.post('/lastSurvey/:email', async function (req, res, next) {
   const users = await updateSurveys(req.params.email, res);
 });
 
 /* Update employee active break count */
-router.post('/activeBreak/:email', async function (req, res, next) {
+router.post('/lastActiveBreak/:email', async function (req, res, next) {
   const users = await updateActiveBreak(req.params.email, res);
 });
 
 /* Update employee presonalized excercise count */
-router.post('/pExcercise/:email', async function (req, res, next) {
+router.post('/lastP_Exercise/:email', async function (req, res, next) {
   const users = await updatePersonalizedExcercise(req.params.email, res);
 });
 
 /* Update employee health survey count */
-router.post('/eSurvey/:email', async function (req, res, next) {
+router.post('/lastE_Survey/:email', async function (req, res, next) {
   const users = await updateEHealthSurvey(req.params.email, res);
 });
 
