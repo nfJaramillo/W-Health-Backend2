@@ -55,7 +55,11 @@ router.get('/:corpo', async function (req, res, next) {
       email: req.body.email,
       password : hash,
       coorporation: req.body.corporation,
-      isSupervisor: req.body.isSupervisor
+      isSupervisor: req.body.isSupervisor,
+      surveyAmmount: req.body.surveyAmmount,
+      activeBreakCount: req.body.activeBreakCount,
+      pExcerciseCount: req.body.pExcerciseCount,
+      healthSurveyCount: req.body.healthSurveyCount
     };
     register(matchDocument, res);
   });
