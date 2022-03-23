@@ -15,11 +15,11 @@ const getAllUsers = async () => {
 };
 
 
-async function getUserByUserName(username) {
+async function getUserByEmail(email) {
   try {
     const user = await getDbRef()
       .collection(COLLECTION_NAME)
-      .findOne({ username });
+      .findOne({ email });
     return user;
   } catch (error) {
     return { error };
@@ -39,4 +39,4 @@ function register(matchDocument, res){
     });
 }
 
-module.exports = { getAllUsers, getUserByUserName, register };
+module.exports = { getAllUsers, getUserByEmail, register };
