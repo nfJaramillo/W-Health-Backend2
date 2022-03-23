@@ -14,12 +14,24 @@ const getAllUsers = async () => {
   }
 };
 
+const getAllUsersByCorporation = async (corpo) => {
+  try {
+    const users = await getDbRef()
+      .collection(COLLECTION_NAME)
+      .find({coorporation: corpo, isSupervisor: 'no'})
+      .toArray();
+    return { users };
+  } catch (error) {
+    return { error };
+  }
+};
 
-async function getUserByEmail(email) {
+
+async function getUserByEmail(pEmail) {
   try {
     const user = await getDbRef()
       .collection(COLLECTION_NAME)
-      .findOne({ email });
+      .findOne({ email: pEmail });
     return user;
   } catch (error) {
     return { error };
@@ -39,4 +51,56 @@ function register(matchDocument, res){
     });
 }
 
-module.exports = { getAllUsers, getUserByEmail, register };
+function updateSurveys(pEmail, res){
+  getDbRef()
+   .collection(COLLECTION_NAME)
+   .updateOne({email: pEmail}, {$inc: {surveyAmmount: 1}}, function (err, result) {
+     if (err) {
+       res.status(400).send("Error inserting matches!");
+     } else {
+       console.log(`Added a new match with id ${result.insertedId}`);
+       res.status(204).send();
+     }
+   });
+}
+
+function updateActiveBreak(pEmail, res){
+  getDbRef()
+   .collection(COLLECTION_NAME)
+   .updateOne({email: pEmail}, {$inc: {activeBreakCount: 1}}, function (err, result) {
+     if (err) {
+       res.status(400).send("Error inserting matches!");
+     } else {
+       console.log(`Added a new match with id ${result.insertedId}`);
+       res.status(204).send();
+     }
+   });
+}
+
+   function updatePersonalizedExcercise(pEmail, res){
+    getDbRef()
+     .collection(COLLECTION_NAME)
+     .updateOne({email: pEmail}, {$inc: {pExcerciseCount: 1}}, function (err, result) {
+       if (err) {
+         res.status(400).send("Error inserting matches!");
+       } else {
+         console.log(`Added a new match with id ${result.insertedId}`);
+         res.status(204).send();
+       }
+     });
+    }
+
+     function updateEHealthSurvey(pEmail, res){
+      getDbRef()
+       .collection(COLLECTION_NAME)
+       .updateOne({email: pEmail}, {$inc: {healthSurveyCount: 1}}, function (err, result) {
+         if (err) {
+           res.status(400).send("Error inserting matches!");
+         } else {
+           console.log(`Added a new match with id ${result.insertedId}`);
+           res.status(204).send();
+         }
+       });
+      }
+
+module.exports = { getAllUsers, getUserByEmail, register, getAllUsersByCorporation,updateSurveys,updateActiveBreak,updatePersonalizedExcercise,updateEHealthSurvey };

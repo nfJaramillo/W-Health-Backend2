@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getAllUsers, register, getUserByEmail } = require('./controller');
+const { getAllUsers, register, getUserByEmail, getAllUsersByCorporation, updateSurveys, updateActiveBreak, updatePersonalizedExcercise, updateEHealthSurvey } = require('./controller');
 const bcrypt = require ('bcrypt');
 
 /* GET users listing. */
@@ -29,6 +29,22 @@ router.get('/:email/:psw', async function (req, res, next) {
   }
 });
 
+/* GET users on corporation. */
+router.get('/:corpo', async function (req, res, next) {
+  const users = await getAllUsersByCorporation(req.params.corpo);
+
+
+  if(users.users[0] == undefined){
+    res.json();
+
+  }
+  else{
+    res.json(users);
+
+  }
+});
+
+
 /**
  * POST create user
  */
@@ -39,10 +55,37 @@ router.get('/:email/:psw', async function (req, res, next) {
       email: req.body.email,
       password : hash,
       coorporation: req.body.corporation,
-      isSupervisor: req.body.isSupervisor
+      isSupervisor: req.body.isSupervisor,
+      surveyAmmount: req.body.surveyAmmount,
+      activeBreakCount: req.body.activeBreakCount,
+      pExcerciseCount: req.body.pExcerciseCount,
+      healthSurveyCount: req.body.healthSurveyCount
     };
     register(matchDocument, res);
   });
 });
+
+/* Update supervisor check survey ammount */
+router.post('/survey/:email', async function (req, res, next) {
+  const users = await updateSurveys(req.params.email, res);
+});
+
+/* Update employee active break count */
+router.post('/activeBreak/:email', async function (req, res, next) {
+  const users = await updateActiveBreak(req.params.email, res);
+});
+
+/* Update employee presonalized excercise count */
+router.post('/pExcercise/:email', async function (req, res, next) {
+  const users = await updatePersonalizedExcercise(req.params.email, res);
+});
+
+/* Update employee health survey count */
+router.post('/eSurvey/:email', async function (req, res, next) {
+  const users = await updateEHealthSurvey(req.params.email, res);
+});
+
+
+
 
 module.exports = router;
