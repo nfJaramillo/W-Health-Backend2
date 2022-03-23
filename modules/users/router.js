@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getAllUsers, register, getUserByEmail, getAllUsersByCorporation, updateSurveys } = require('./controller');
+const { getAllUsers, register, getUserByEmail, getAllUsersByCorporation, updateSurveys, updateActiveBreak, updatePersonalizedExcercise, updateEHealthSurvey } = require('./controller');
 const bcrypt = require ('bcrypt');
 
 /* GET users listing. */
@@ -44,10 +44,6 @@ router.get('/:corpo', async function (req, res, next) {
   }
 });
 
-/* Update supervisor survey */
-router.post('/survey/:email', async function (req, res, next) {
-  const users = await updateSurveys(req.params.email, res);
-});
 
 /**
  * POST create user
@@ -64,6 +60,27 @@ router.post('/survey/:email', async function (req, res, next) {
     register(matchDocument, res);
   });
 });
+
+/* Update supervisor check survey ammount */
+router.post('/survey/:email', async function (req, res, next) {
+  const users = await updateSurveys(req.params.email, res);
+});
+
+/* Update employee active break count */
+router.post('/activeBreak/:email', async function (req, res, next) {
+  const users = await updateActiveBreak(req.params.email, res);
+});
+
+/* Update employee presonalized excercise count */
+router.post('/pExcercise/:email', async function (req, res, next) {
+  const users = await updatePersonalizedExcercise(req.params.email, res);
+});
+
+/* Update employee health survey count */
+router.post('/eSurvey/:email', async function (req, res, next) {
+  const users = await updateEHealthSurvey(req.params.email, res);
+});
+
 
 
 
