@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getAllUsers, register, getUserByEmail, getAllUsersByCorporation } = require('./controller');
+const { getAllUsers, register, getUserByEmail, getAllUsersByCorporation, updateSurveys } = require('./controller');
 const bcrypt = require ('bcrypt');
 
 /* GET users listing. */
@@ -44,6 +44,11 @@ router.get('/:corpo', async function (req, res, next) {
   }
 });
 
+/* Update supervisor survey */
+router.post('/survey/:email', async function (req, res, next) {
+  const users = await updateSurveys(req.params.email, res);
+});
+
 /**
  * POST create user
  */
@@ -59,5 +64,7 @@ router.get('/:corpo', async function (req, res, next) {
     register(matchDocument, res);
   });
 });
+
+
 
 module.exports = router;

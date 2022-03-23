@@ -51,4 +51,16 @@ function register(matchDocument, res){
     });
 }
 
-module.exports = { getAllUsers, getUserByEmail, register, getAllUsersByCorporation };
+function updateSurveys(pEmail, res){
+  getDbRef()
+   .collection(COLLECTION_NAME)
+   .updateOne({email: pEmail}, {$inc: {surveyAmmount: 1}}, function (err, result) {
+     if (err) {
+       res.status(400).send("Error inserting matches!");
+     } else {
+       console.log(`Added a new match with id ${result.insertedId}`);
+       res.status(204).send();
+     }
+   });
+}
+module.exports = { getAllUsers, getUserByEmail, register, getAllUsersByCorporation,updateSurveys };
