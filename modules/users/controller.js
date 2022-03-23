@@ -54,11 +54,10 @@ function register(matchDocument, res){
 function updateSurveys(pEmail, res){
   getDbRef()
    .collection(COLLECTION_NAME)
-   .updateOne({email: pEmail}, {$inc: {surveyAmmount: 1}}, function (err, result) {
+   .updateOne({email: pEmail}, {$set: {lastSurvey: new Date(Date.now()).toISOString()}}, function (err, result) {
      if (err) {
        res.status(400).send("Error inserting matches!");
      } else {
-       console.log(`Added a new match with id ${result.insertedId}`);
        res.status(204).send();
      }
    });
@@ -67,7 +66,7 @@ function updateSurveys(pEmail, res){
 function updateActiveBreak(pEmail, res){
   getDbRef()
    .collection(COLLECTION_NAME)
-   .updateOne({email: pEmail}, {$inc: {activeBreakCount: 1}}, function (err, result) {
+   .updateOne({email: pEmail}, {$set: {lastActiveBreak: new Date(Date.now()).toISOString()}}, function (err, result) {
      if (err) {
        res.status(400).send("Error inserting matches!");
      } else {
@@ -80,7 +79,7 @@ function updateActiveBreak(pEmail, res){
    function updatePersonalizedExcercise(pEmail, res){
     getDbRef()
      .collection(COLLECTION_NAME)
-     .updateOne({email: pEmail}, {$inc: {pExcerciseCount: 1}}, function (err, result) {
+     .updateOne({email: pEmail}, {$set: {lastP_Exercise: new Date(Date.now()).toISOString()}}, function (err, result) {
        if (err) {
          res.status(400).send("Error inserting matches!");
        } else {
@@ -93,7 +92,7 @@ function updateActiveBreak(pEmail, res){
      function updateEHealthSurvey(pEmail, res){
       getDbRef()
        .collection(COLLECTION_NAME)
-       .updateOne({email: pEmail}, {$inc: {healthSurveyCount: 1}}, function (err, result) {
+       .updateOne({email: pEmail}, {$set: {lastE_Survey: new Date(Date.now()).toISOString()}}, function (err, result) {
          if (err) {
            res.status(400).send("Error inserting matches!");
          } else {
