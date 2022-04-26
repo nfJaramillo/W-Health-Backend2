@@ -51,6 +51,18 @@ function register(matchDocument, res){
     });
 }
 
+function update(pEmail, matchDocument, res){
+  getDbRef()
+   .collection(COLLECTION_NAME)
+   .updateOne({email: pEmail},{$set: matchDocument}, function (err) {
+     if (err) {
+       res.status(400).send("Error updating!");
+     } else {
+       res.status(204).send("User updated");
+     }
+   });
+}
+
 function updateSurveys(pEmail, res){
   getDbRef()
    .collection(COLLECTION_NAME)
@@ -102,4 +114,4 @@ function updateActiveBreak(pEmail, res){
        });
       }
 
-module.exports = { getAllUsers, getUserByEmail, register, getAllUsersByCorporation,updateSurveys,updateActiveBreak,updatePersonalizedExcercise,updateEHealthSurvey };
+module.exports = { getAllUsers, getUserByEmail, register, update, getAllUsersByCorporation,updateSurveys,updateActiveBreak,updatePersonalizedExcercise,updateEHealthSurvey };

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getAllUsers, register, getUserByEmail, getAllUsersByCorporation, updateSurveys, updateActiveBreak, updatePersonalizedExcercise, updateEHealthSurvey } = require('./controller');
+const { getAllUsers, register, getUserByEmail, update, getAllUsersByCorporation, updateSurveys, updateActiveBreak, updatePersonalizedExcercise, updateEHealthSurvey } = require('./controller');
 const bcrypt = require ('bcrypt');
 
 /* GET users listing. */
@@ -10,7 +10,7 @@ router.get('/', async function (req, res, next) {
 });
 
 /* GET user. */
-router.get('/:email/:psw', async function (req, res, next) {
+router.get('/auth/:email/:psw', async function (req, res, next) {
   const users = await getUserByEmail(req.params.email);
 
   if(users == null)
@@ -30,11 +30,30 @@ router.get('/:email/:psw', async function (req, res, next) {
 });
 
 /* GET users on corporation. */
-router.get('/:corpo', async function (req, res, next) {
-  const users = await getAllUsersByCorporation(req.params.corpo);
+router.get('/corpo/:corpo', async function (req, res, next) {
+  var users = {}
+  users = await getAllUsersByCorporation(req.params.corpo);
 
 
   if(users.users[0] == undefined){
+    res.json();
+
+  }
+  else{
+    res.json(users);
+
+  }
+});
+
+/* GET users on email. */
+router.get('/email/:email', async function (req, res, next) {
+  var users = {}
+  console.log(req.params.email)
+  users = await getUserByEmail(req.params.email);
+  console.log(users)
+  
+
+  if(users == undefined){
     res.json();
 
   }
@@ -63,6 +82,22 @@ router.get('/:corpo', async function (req, res, next) {
     };
     register(matchDocument, res);
   });
+});
+
+/**
+ * PUT update 1 user by email
+ */
+ router.put('/:email', async function (req, res) {
+  var matchDocument = {}
+
+  if(req.body.name != undefined) matchDocument.name = req.body.name
+  if(req.body.password != undefined) matchDocument.password= req.body.password
+  if(req.body.lastSurvey != undefined) matchDocument.lastSurvey= req.body.lastSurvey
+  if(req.body.lastActiveBreak != undefined) matchDocument.lastActiveBreak= req.body.lastActiveBreak
+  if(req.body.lastP_Exercise != undefined) matchDocument.lastP_Exercise= req.body.lastP_Exercise
+  if(req.body.lastE_Survey != undefined) matchDocument.lastE_Survey= req.body.lastE_Survey
+  console.log(matchDocument.lastSurvey)
+  update(req.params.email, matchDocument, res);
 });
 
 /* Update supervisor check survey ammount */
