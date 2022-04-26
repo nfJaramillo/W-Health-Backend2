@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getAllUsers, register, getUserByEmail, getAllUsersByCorporation, updateSurveys, updateActiveBreak, updatePersonalizedExcercise, updateEHealthSurvey } = require('./controller');
+const { getAllUsers, register, getUserByEmail, update, getAllUsersByCorporation, updateSurveys, updateActiveBreak, updatePersonalizedExcercise, updateEHealthSurvey } = require('./controller');
 const bcrypt = require ('bcrypt');
 
 /* GET users listing. */
@@ -63,6 +63,22 @@ router.get('/:corpo', async function (req, res, next) {
     };
     register(matchDocument, res);
   });
+});
+
+/**
+ * PUT update 1 user by email
+ */
+ router.put('/:email', async function (req, res) {
+  var matchDocument = {}
+
+  if(req.body.name != undefined) matchDocument.name = req.body.name
+  if(req.body.password != undefined) matchDocument.password= req.body.password
+  if(req.body.lastSurvey != undefined) matchDocument.lastSurvey= req.body.lastSurvey
+  if(req.body.lastActiveBreak != undefined) matchDocument.lastActiveBreak= req.body.lastActiveBreak
+  if(req.body.lastP_Exercise != undefined) matchDocument.lastP_Exercise= req.body.lastP_Exercise
+  if(req.body.lastE_Survey != undefined) matchDocument.lastE_Survey= req.body.lastE_Survey
+  console.log(matchDocument.lastSurvey)
+  update(req.params.email, matchDocument, res);
 });
 
 /* Update supervisor check survey ammount */
