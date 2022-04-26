@@ -10,7 +10,7 @@ router.get('/', async function (req, res, next) {
 });
 
 /* GET user. */
-router.get('/:email/:psw', async function (req, res, next) {
+router.get('/auth/:email/:psw', async function (req, res, next) {
   const users = await getUserByEmail(req.params.email);
 
   if(users == null)
@@ -30,11 +30,30 @@ router.get('/:email/:psw', async function (req, res, next) {
 });
 
 /* GET users on corporation. */
-router.get('/:corpo', async function (req, res, next) {
-  const users = await getAllUsersByCorporation(req.params.corpo);
+router.get('/corpo/:corpo', async function (req, res, next) {
+  var users = {}
+  users = await getAllUsersByCorporation(req.params.corpo);
 
 
   if(users.users[0] == undefined){
+    res.json();
+
+  }
+  else{
+    res.json(users);
+
+  }
+});
+
+/* GET users on email. */
+router.get('/email/:email', async function (req, res, next) {
+  var users = {}
+  console.log(req.params.email)
+  users = await getUserByEmail(req.params.email);
+  console.log(users)
+  
+
+  if(users == undefined){
     res.json();
 
   }
