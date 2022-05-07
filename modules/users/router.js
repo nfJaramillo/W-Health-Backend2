@@ -35,14 +35,10 @@ router.get('/corpo/:corpo', async function (req, res, next) {
   users = await getAllUsersByCorporation(req.params.corpo);
 
 
-  if(users.users[0] == undefined){
-    res.json();
 
-  }
-  else{
     res.json(users);
 
-  }
+  
 });
 
 /* GET users on email. */
@@ -95,6 +91,7 @@ router.get('/email/:email', async function (req, res, next) {
   if(req.body.lastSurvey != undefined) matchDocument.lastSurvey= req.body.lastSurvey
   if(req.body.lastActiveBreak != undefined) matchDocument.lastActiveBreak= req.body.lastActiveBreak
   if(req.body.lastP_Exercise != undefined) matchDocument.lastP_Exercise= req.body.lastP_Exercise
+  if(req.body.lastE_Survey != undefined) matchDocument.lastE_Survey= req.body.lastE_Survey
   if(req.body.lastE_Survey != undefined) matchDocument.lastE_Survey= req.body.lastE_Survey
   console.log(matchDocument.lastSurvey)
   update(req.params.email, matchDocument, res);
