@@ -9,6 +9,8 @@ const { connect } = require('./lib/mongo');
 connect();
 
 const usersRouter = require('./modules/users/router');
+const surveysRouter = require('./modules/surveys/router');
+
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Product module
 app.use('/api/users', usersRouter);
+app.use('/api/surveys', surveysRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

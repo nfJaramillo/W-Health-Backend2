@@ -72,9 +72,10 @@ router.get('/email/:email', async function (req, res, next) {
       coorporation: req.body.corporation,
       isSupervisor: req.body.isSupervisor,
       lastSurvey: req.body.lastSurvey,
-      lastActiveBreak: req.body.lastActiveBreak,
+      lastActiveBreak: new Date(Date.now()).toISOString(),
       lastP_Exercise: req.body.lastP_Exercise,
-      lastE_Survey: req.body.lastE_Survey
+      lastE_Survey: req.body.lastE_Survey,
+      profilePic: "https://t3.ftcdn.net/jpg/02/36/48/86/360_F_236488644_opXVvD367vGJTM2I7xTlsHB58DVbmtxR.jpg"
     };
     register(matchDocument, res);
   });
