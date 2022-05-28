@@ -1,4 +1,4 @@
-//const User = require('../models/user');
+// const User = require('../models/user');
 const { getDbRef } = require('../../lib/mongo');
 const COLLECTION_NAME = 'surveys';
 
