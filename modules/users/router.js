@@ -3,7 +3,7 @@ var router = express.Router();
 const { getAllUsers, register, getUserByEmail, update, getAllUsersByCorporation, updateSurveys, updateActiveBreak, updatePersonalizedExcercise, updateEHealthSurvey } = require('./controller');
 const bcrypt = require ('bcrypt');
 
-/* GET users listing. */
+/* GET  users listing. */
 router.get('/', async function (req, res, next) {
   const users = await getAllUsers();
   res.json(users);
